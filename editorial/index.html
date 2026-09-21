@@ -3,8 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Видеограф — Редакционный</title>
+<title>FILMED BY ROMARIO — Редакционный</title>
 <meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="../favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Onest:wght@400;500;600;700;800&family=Unbounded:wght@400;500;600;700&family=Oswald:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Montserrat:wght@300;400;600;800&family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
@@ -175,6 +176,37 @@ body[data-grid="mix"] .works .item:nth-child(4),body[data-grid="mix"] .works .it
 
 body[data-grid="mix"] .works .item:nth-child(8){display:none}
 body[data-grid="even"][data-cols="3"] .works .item:nth-child(n+7){display:none}
+
+/* логотип: маска, красится цветом текста текущего стиля */
+.mark{display:inline-block;width:1em;height:1em;background:currentColor;-webkit-mask:url(../logo-mask.png) center/contain no-repeat;mask:url(../logo-mask.png) center/contain no-repeat;flex:none}
+.name{display:flex;align-items:center;gap:12px}
+.name .mark{font-size:40px}
+.big{display:flex;align-items:center;gap:.25em;white-space:nowrap;width:max-content;max-width:none}
+.big .mark{font-size:.9em}
+.mark--wm{position:absolute;left:24px;top:14px;font-size:64px;color:#fff;opacity:.9}
+.mark--ph{position:absolute;inset:0;margin:auto;font-size:160px;color:#fff;opacity:.85}
+@media(max-width:700px){.name .mark{font-size:32px}}
+@media(max-width:700px){
+  h1{font-size:min(var(--h1),10.5vw)} h2{font-size:min(var(--h2),9vw)}
+  .hero__full .in h1{font-size:min(var(--h1),10vw)}
+  .logos{font-size:16px;gap:14px}
+  .head{margin-bottom:28px}
+  .facts b,.pkg .price{font-size:32px}
+  .form h2{font-size:min(calc(var(--h2) * 1.15),9vw)}
+  body[data-cols="4"] .works,body[data-grid] .works{grid-template-columns:1fr 1fr}
+  .btn{white-space:normal;text-align:center}
+  .name{font-size:17px;white-space:nowrap}.name small{font-size:9.5px}
+  .hdr .btn{padding:10px 14px;font-size:13px}
+  .hdr .wrap{gap:10px}
+  body[data-grid] .works .item{grid-column:auto!important;grid-row:auto!important}
+  body[data-grid] .works .item .frame{aspect-ratio:4/5!important;flex:none}
+  body[data-grid] .works .item:nth-child(1){grid-column:1/-1!important}
+  body[data-grid] .works .item:nth-child(1) .frame{aspect-ratio:16/10!important}
+  body[data-grid] .works .item:nth-child(n+8){display:none}
+  .cap b{font-size:14px}.cap{bottom:30px;left:10px;right:10px}
+}
+.form>*,.about>*,.hero__reels .g>*,.head>*{min-width:0}
+@media(max-width:400px){.hdr .btn{display:none}}
 /* панель */
 .panel{position:fixed;right:16px;bottom:16px;width:330px;max-height:calc(100vh - 32px);overflow:auto;z-index:100;background:#fff;color:#1F2430;border:1px solid #D5DAE1;border-radius:14px;box-shadow:0 20px 50px -12px rgba(0,0,0,.5);font:13.5px/1.4 "Segoe UI",Arial,sans-serif}
 .panel.min .pb{display:none}
@@ -206,7 +238,7 @@ body[data-grid="even"][data-cols="3"] .works .item:nth-child(n+7){display:none}
 <body data-hero="full" data-grid="mix">
 
 <header class="hdr"><div class="wrap">
-  <a class="name" href="#">Имя Фамилия<small>видеограф · город</small></a>
+  <a class="name" href="#"><span class="mark" aria-hidden="true"></span><span>FILMED BY ROMARIO<small>видеограф · город</small></span></a>
   <nav class="nav"><a href="#">Работы</a><a href="#">Услуги</a><a href="#">Обо мне</a><a href="#">Отзывы</a><a href="#">Контакты</a></nav>
   <a class="btn" href="#">Обсудить съёмку</a>
 </div></header>
@@ -214,7 +246,7 @@ body[data-grid="even"][data-cols="3"] .works .item:nth-child(n+7){display:none}
 <section class="hero">
   <div class="hero__full">
     <div class="frame"></div><div class="shade"></div>
-    <span class="rec" style="top:20px;right:24px"><i></i>REC · COMMERCIAL REEL 2026</span>
+    <span class="rec" style="top:20px;right:24px"><i></i>REC · COMMERCIAL REEL 2026</span><span class="mark mark--wm" aria-hidden="true"></span>
     <div class="in"><div class="wrap">
       <div class="eyebrow" style="color:rgba(255,255,255,.7)">Реклама · fashion · клипы</div>
       <h1 style="margin-top:18px">Реклама, fashion<br>и&nbsp;клипы для брендов</h1>
@@ -281,9 +313,9 @@ body[data-grid="even"][data-cols="3"] .works .item:nth-child(n+7){display:none}
 </div></section>
 
 <section class="sec sec--alt"><div class="wrap about">
-  <div class="frame"></div>
+  <div class="frame"><span class="mark mark--ph" aria-hidden="true"></span></div>
   <div>
-    <div class="eyebrow">Обо мне</div><h2 style="margin-top:14px">Имя Фамилия</h2>
+    <div class="eyebrow">Обо мне</div><h2 style="margin-top:14px">Romario</h2>
     <p class="muted">Пример текста о&nbsp;себе: опыт, подход к&nbsp;съёмке, что для вас важно в&nbsp;работе с&nbsp;клиентом.</p>
     <div class="facts"><div><b>N</b><span>лет снимаю</span></div><div><b>N+</b><span>брендов</span></div><div><b>N</b><span>клипов</span></div></div>
     <div class="gear">КАМЕРА · ОБЪЕКТИВЫ · СВЕТ · ЗВУК · ДРОН</div>
@@ -310,9 +342,9 @@ body[data-grid="even"][data-cols="3"] .works .item:nth-child(n+7){display:none}
   </div>
 </div></section>
 
-<footer class="wrap"><div class="big">Имя Фамилия</div><div class="foot"><span>© 2026 · видеограф</span><span>Политика конфиденциальности</span></div></footer>
+<footer class="wrap"><div class="big"><span class="mark" aria-hidden="true"></span>FILMED BY ROMARIO</div><div class="foot"><span>© 2026 · видеограф</span><span>Политика конфиденциальности</span></div></footer>
 
-<div class="note"><a href="../" style="text-decoration:underline">← все варианты</a> · Прототип «Редакционный»: видео — заглушки, тексты и цены — примеры.</div>
+<div class="note"><a href="../" style="text-decoration:underline">← все варианты</a> · «Редакционный»: видео — заглушки, тексты и цены — примеры.</div>
 
 <aside class="panel min" id="panel">
   <div class="phd" id="phd"><b>Стиль: видеограф</b><span id="pt">развернуть ▴</span></div>
@@ -403,6 +435,12 @@ body[data-grid="even"][data-cols="3"] .works .item:nth-child(n+7){display:none}
     var done=function(){var c=document.getElementById('copied');c.textContent='Скопировано — пришлите в чат';setTimeout(function(){c.textContent=''},3000)};
     if(navigator.clipboard)navigator.clipboard.writeText(t).then(done,function(){prompt('Скопируйте:',t)});else prompt('Скопируйте:',t);
   });
+
+  // крупная надпись в подвале — ровно по ширине контейнера при любом шрифте
+  function fitBig(){var b=document.querySelector('.big');if(!b)return;b.style.fontSize='100px';var w=b.parentElement.clientWidth-48,sw=b.scrollWidth;b.style.fontSize=Math.min(160,Math.floor(100*w/sw))+'px';}
+  var _apply=apply;apply=function(){_apply();requestAnimationFrame(fitBig)};
+  window.addEventListener('resize',fitBig);
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitBig);
   apply();
 })();
 </script>

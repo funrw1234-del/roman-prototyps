@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Видеограф — Кино тёмный</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Onest:wght@400;500;600;700;800&family=Unbounded:wght@400;500;600;700&family=Oswald:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Montserrat:wght@300;400;600;800&family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0A0A0B; --surface:#141416; --ink:#EDEDED; --muted:#8B8B90; --line:#26262A;
+  --accent:#E5484D; --accent-ink:#fff;
+  --s1:#1d2b3a; --s2:#7a3b2e; --s3:#c78a4a;
+  --fh:'Oswald',sans-serif; --fb:'Manrope',sans-serif;
+  --h-case:uppercase; --h-weight:400; --h-track:.02em; --h-style:normal; --h-line:1;
+  --h1:88px; --h2:52px; --text:16px;
+  --radius:4px; --btn-radius:999px; --pad:110px; --gap:14px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--fb);font-size:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:24px}
+.sec{padding-block:var(--pad)}
+.sec--alt{background:var(--surface)}
+h1,h2,h3{font-family:var(--fh);text-transform:var(--h-case);font-weight:var(--h-weight);letter-spacing:var(--h-track);font-style:var(--h-style);line-height:var(--h-line);margin:0;text-wrap:balance}
+h1{font-size:var(--h1)} h2{font-size:var(--h2)} h3{font-size:20px;line-height:1.2;text-transform:none;letter-spacing:0;font-style:normal;font-family:var(--fb);font-weight:700}
+.muted{color:var(--muted)}
+.accent{color:var(--accent)}
+.eyebrow{font:500 12px/1 'JetBrains Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:28px;height:1px;background:currentColor}
+.head{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:44px;flex-wrap:wrap}
+.head h2{margin-top:14px}
+.btn{display:inline-flex;align-items:center;gap:12px;padding:17px 28px;border-radius:var(--btn-radius);background:var(--accent);color:var(--accent-ink);font:700 15px/1 var(--fb);border:0;cursor:pointer;white-space:nowrap}
+.btn--ghost{background:transparent;color:inherit;border:1.5px solid color-mix(in srgb,currentColor 40%,transparent)}
+.play{width:14px;height:14px;display:inline-block;background:currentColor;clip-path:polygon(0 0,100% 50%,0 100%)}
+
+/* «кадр» — заглушка видео */
+.frame{position:relative;overflow:hidden;border-radius:var(--radius);background:linear-gradient(135deg,var(--s1),var(--s2) 60%,var(--s3));aspect-ratio:16/9;isolation:isolate}
+.frame::before{content:"";position:absolute;inset:-20%;background:radial-gradient(40% 50% at 70% 40%,color-mix(in srgb,var(--s3) 80%,#fff 20%),transparent 70%),radial-gradient(35% 45% at 25% 75%,color-mix(in srgb,var(--s1) 60%,#000),transparent 70%);opacity:.8;z-index:-1}
+.frame::after{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E");mix-blend-mode:overlay;pointer-events:none}
+.frame:nth-child(3n+2){background:linear-gradient(200deg,var(--s2),var(--s1) 70%)}
+.frame:nth-child(3n+3){background:linear-gradient(20deg,var(--s3),var(--s2) 45%,var(--s1))}
+.item:nth-child(3n+2) .frame{background:linear-gradient(200deg,var(--s2),var(--s1) 70%)}
+.item:nth-child(3n+3) .frame{background:linear-gradient(20deg,var(--s3),var(--s2) 45%,var(--s1))}
+.item:nth-child(4n) .frame{background:linear-gradient(160deg,var(--s1),var(--s3))}
+.frame .pl{position:absolute;inset:0;margin:auto;width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.18);backdrop-filter:blur(6px);display:grid;place-items:center;color:#fff;transition:transform .25s}
+.frame:hover .pl{transform:scale(1.1)}
+.frame .pl .play{margin-left:4px}
+.tc{position:absolute;left:14px;bottom:12px;font:500 11px 'JetBrains Mono',monospace;color:rgba(255,255,255,.85);letter-spacing:.08em}
+.cap{position:absolute;left:14px;right:14px;bottom:34px;color:#fff}
+.cap b{display:block;font-family:var(--fb);font-size:17px}
+.cap span{font-size:13px;opacity:.8}
+.rec{position:absolute;right:14px;top:12px;font:500 11px 'JetBrains Mono',monospace;color:#fff;display:flex;align-items:center;gap:6px}
+.rec i{width:8px;height:8px;border-radius:50%;background:#ff3b3b;animation:blink 1.2s infinite}
+@keyframes blink{50%{opacity:.2}}
+@media(prefers-reduced-motion:reduce){.rec i{animation:none}}
+
+/* шапка */
+.hdr{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.hdr .wrap{display:flex;align-items:center;justify-content:space-between;height:72px;gap:20px}
+.name{font-family:var(--fh);font-size:22px;text-transform:var(--h-case);letter-spacing:var(--h-track);font-style:var(--h-style);font-weight:var(--h-weight)}
+.name small{display:block;font:500 11px 'JetBrains Mono',monospace;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;font-style:normal}
+.nav{display:flex;gap:28px;font-size:14.5px;font-weight:600}
+.hdr .btn{padding:12px 20px;font-size:14px}
+@media(max-width:900px){.nav{display:none}}
+
+/* первый экран: 3 режима */
+.hero{position:relative}
+.hero__full{display:none;position:relative;height:calc(100vh - 72px);min-height:560px;max-height:860px}
+.hero__full .frame{position:absolute;inset:0;border-radius:0;aspect-ratio:auto}
+.hero__full .frame::before{animation:drift 16s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translate(6%,-4%) scale(1.08)}}
+@media(prefers-reduced-motion:reduce){.hero__full .frame::before{animation:none}}
+.hero__full .shade{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.7),rgba(0,0,0,.05) 60%)}
+.hero__full .in{position:absolute;left:0;right:0;bottom:56px;color:#fff}
+.hero__full .in p{max-width:560px;opacity:.85;font-size:calc(var(--text) + 2px)}
+.hero__box{display:none;padding-block:calc(var(--pad) * .55) calc(var(--pad) * .7)}
+.hero__box h1{max-width:1100px}
+.hero__box .frame{margin-top:40px}
+.hero__box .row{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-top:22px;flex-wrap:wrap}
+.hero__box .row p{max-width:520px;margin:0;font-size:calc(var(--text) + 2px)}
+.hero__reels{display:none;padding-block:calc(var(--pad) * .55) calc(var(--pad) * .7)}
+.hero__reels .g{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.reels{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.reels .frame{aspect-ratio:9/16}
+.reels .frame:nth-child(2){transform:translateY(-28px)}
+.hero__reels p{font-size:calc(var(--text) + 2px);max-width:520px}
+body[data-hero="full"] .hero__full{display:block}
+body[data-hero="box"] .hero__box{display:block}
+body[data-hero="reels"] .hero__reels{display:block}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+@media(max-width:900px){.hero__reels .g{grid-template-columns:1fr}}
+
+/* клиенты */
+.logos{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;padding-block:30px;border-block:1px solid var(--line);font-family:var(--fh);font-size:22px;color:var(--muted);text-transform:var(--h-case);letter-spacing:.06em}
+
+/* портфолио */
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tabs span{padding:9px 16px;border-radius:var(--btn-radius);border:1px solid var(--line);font-size:14px;font-weight:600}
+.tabs span.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.works{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
+body[data-grid="mix"] .works{grid-template-columns:repeat(4,1fr)}
+@media(max-width:900px){.works,body[data-grid="mix"] .works{grid-template-columns:1fr 1fr}body[data-grid="mix"] .works .item:nth-child(1){grid-column:span 2}}
+
+/* услуги */
+.pkgs{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
+.pkg{padding:30px;border:1px solid var(--line);border-radius:var(--radius);display:flex;flex-direction:column;gap:14px;background:var(--bg)}
+.sec--alt .pkg{background:var(--surface)}
+.pkg.hot{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.pkg .price{font-family:var(--fh);font-size:40px;line-height:1;text-transform:none;letter-spacing:-.01em;font-style:var(--h-style)}
+.pkg ul{margin:0;padding:0;list-style:none;display:grid;gap:8px;font-size:15px;color:var(--muted)}
+.pkg li::before{content:"— ";color:var(--accent)}
+.pkg .btn{margin-top:auto;justify-content:center}
+@media(max-width:900px){.pkgs{grid-template-columns:1fr}}
+
+/* процесс */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--gap)}
+.step{border-top:1px solid var(--line);padding-top:20px}
+.step b{font:500 13px 'JetBrains Mono',monospace;color:var(--accent);letter-spacing:.1em}
+.step h3{margin-top:14px}
+.step p{margin:8px 0 0;font-size:15px;color:var(--muted)}
+@media(max-width:900px){.steps{grid-template-columns:1fr 1fr}}
+
+/* обо мне */
+.about{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center}
+.about .frame{aspect-ratio:4/5}
+.about p{font-size:calc(var(--text) + 2px)}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
+.facts b{display:block;font-family:var(--fh);font-size:40px;line-height:1;font-style:var(--h-style)}
+.facts span{font-size:13.5px;color:var(--muted)}
+.gear{margin-top:24px;font:500 13px 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:.04em}
+@media(max-width:900px){.about{grid-template-columns:1fr}}
+
+/* отзывы */
+.revs{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
+.rev .frame{aspect-ratio:4/5}
+.rev p{margin:14px 0 0;font-size:15px}
+@media(max-width:900px){.revs{grid-template-columns:1fr}}
+
+/* форма */
+.form{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.form h2{font-size:calc(var(--h2) * 1.15)}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field{width:100%;padding:16px 18px;border-radius:calc(var(--radius) + 6px);border:1px solid var(--line);background:transparent;color:var(--ink);font:500 15px var(--fb)}
+.field::placeholder{color:var(--muted)}
+.full{grid-column:1/-1}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chips span{padding:9px 14px;border-radius:var(--btn-radius);border:1px solid var(--line);font-size:14px}
+.chips span.on{border-color:var(--accent);color:var(--accent)}
+@media(max-width:900px){.form{grid-template-columns:1fr}.fields{grid-template-columns:1fr}}
+.foot{padding-block:40px 30px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
+.big{font-family:var(--fh);text-transform:var(--h-case);font-style:var(--h-style);font-weight:var(--h-weight);font-size:clamp(56px,13vw,190px);line-height:.85;letter-spacing:var(--h-track);color:color-mix(in srgb,var(--ink) 10%,var(--bg));padding-block:30px 0}
+
+
+/* ── стиль «лейбл» (как gaz.team) и доп. переключатели ── */
+body[data-tex="1"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='3' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"),radial-gradient(120% 80% at 50% 0%,color-mix(in srgb,var(--bg) 80%,#fff 4%),var(--bg))}
+body[data-tex="1"] .sec--alt{background:rgba(255,255,255,.025)}
+body[data-frame="1"] .works .frame,body[data-frame="1"] .rev .frame,body[data-frame="1"] .reels .frame,body[data-frame="1"] .hero__box .frame{outline:1px solid var(--accent);outline-offset:3px}
+body[data-line="1"] .head>div:first-child{flex:1;display:flex;flex-wrap:wrap;align-items:center;column-gap:24px}
+body[data-line="1"] .head>div:first-child .eyebrow{width:100%}
+body[data-line="1"] .head>div:first-child h2::after{content:none}
+body[data-line="1"] .head>div:first-child::after{content:"";flex:1;min-width:80px;height:1px;background:var(--accent);margin-top:14px;opacity:.8}
+body[data-cols="4"] .works{grid-template-columns:repeat(4,1fr)}
+body[data-cols="4"][data-grid="even"] .works .frame{aspect-ratio:16/10}
+.meta{display:none;font:500 11px 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:.06em;margin-top:8px;text-transform:uppercase}
+body[data-meta="1"] .works .frame .cap{display:none}
+body[data-meta="1"] .works .item .meta{display:block}
+.item{display:flex;flex-direction:column}
+body[data-grid="mix"] .works .item:nth-child(1){grid-column:span 2;grid-row:span 2}
+body[data-grid="mix"] .works .item:nth-child(1) .frame{aspect-ratio:auto;flex:1}
+body[data-grid="mix"] .works .item:nth-child(4) .frame,body[data-grid="mix"] .works .item:nth-child(5) .frame{aspect-ratio:9/16}
+body[data-grid="mix"] .works .item:nth-child(4),body[data-grid="mix"] .works .item:nth-child(5){grid-row:span 2}
+
+body[data-grid="mix"] .works .item:nth-child(8){display:none}
+body[data-grid="even"][data-cols="3"] .works .item:nth-child(n+7){display:none}
+/* панель */
+.panel{position:fixed;right:16px;bottom:16px;width:330px;max-height:calc(100vh - 32px);overflow:auto;z-index:100;background:#fff;color:#1F2430;border:1px solid #D5DAE1;border-radius:14px;box-shadow:0 20px 50px -12px rgba(0,0,0,.5);font:13.5px/1.4 "Segoe UI",Arial,sans-serif}
+.panel.min .pb{display:none}
+.phd{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid #E3E6EB;cursor:pointer}
+.pb{padding:12px 14px 14px}
+.grp{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#6B7280;margin:14px 0 8px;padding-top:10px;border-top:1px solid #E3E6EB}
+.grp:first-child{border:0;padding:0;margin-top:0}
+.presets{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.presets button,.seg3 button{border:1px solid #D5DAE1;background:#fff;border-radius:8px;padding:8px;font:600 12.5px "Segoe UI",sans-serif;cursor:pointer;text-align:left;color:#1F2430}
+.presets button.on,.seg3 button.on{background:#1F2430;color:#fff;border-color:#1F2430}
+.presets small{display:block;font-weight:400;opacity:.7;font-size:11px}
+.seg3{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-bottom:10px}
+.seg3.two{grid-template-columns:1fr 1fr}
+.seg3 button{text-align:center;padding:6px 4px}
+.ctl{margin-bottom:10px}
+.ctl label{display:flex;justify-content:space-between;font-weight:600;margin-bottom:3px}
+.ctl output{color:#E8590C;font-weight:700}
+.ctl input[type=range]{width:100%;accent-color:#E8590C}
+.ctl select{width:100%;padding:6px;border-radius:6px;border:1px solid #D5DAE1;font:13px "Segoe UI",sans-serif}
+.sw{display:flex;gap:6px;flex-wrap:wrap}
+.sw button{width:26px;height:26px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #D5DAE1;cursor:pointer}
+.sw input{width:34px;height:28px;border:0;padding:0;background:none;cursor:pointer}
+.pbtns button{width:100%;border:1px solid #D5DAE1;background:#fff;border-radius:8px;padding:8px;font:600 13px "Segoe UI",sans-serif;cursor:pointer;margin-top:12px}
+.copied{font-size:12px;color:#16A34A;text-align:center;min-height:16px;margin-top:6px}
+.note{position:fixed;left:16px;bottom:16px;z-index:90;background:#1F2430;color:#fff;font:12.5px/1.4 "Segoe UI",sans-serif;padding:8px 12px;border-radius:8px;opacity:.85;max-width:300px}
+@media(max-width:700px){.panel{left:8px;right:8px;width:auto;bottom:8px;max-height:55vh}.note{display:none}}
+</style>
+</head>
+<body data-hero="full" data-grid="mix">
+
+<header class="hdr"><div class="wrap">
+  <a class="name" href="#">Имя Фамилия<small>видеограф · город</small></a>
+  <nav class="nav"><a href="#">Работы</a><a href="#">Услуги</a><a href="#">Обо мне</a><a href="#">Отзывы</a><a href="#">Контакты</a></nav>
+  <a class="btn" href="#">Обсудить съёмку</a>
+</div></header>
+
+<section class="hero">
+  <div class="hero__full">
+    <div class="frame"></div><div class="shade"></div>
+    <span class="rec" style="top:20px;right:24px"><i></i>REC · COMMERCIAL REEL 2026</span>
+    <div class="in"><div class="wrap">
+      <div class="eyebrow" style="color:rgba(255,255,255,.7)">Реклама · fashion · клипы</div>
+      <h1 style="margin-top:18px">Реклама, fashion<br>и&nbsp;клипы для брендов</h1>
+      <p>Пример подзаголовка: коммерческая съёмка под ключ — от&nbsp;идеи и&nbsp;сценария до&nbsp;монтажа и&nbsp;цвета.</p>
+      <div class="cta"><a class="btn" href="#"><span class="play"></span>Смотреть шоурил</a><a class="btn btn--ghost" href="#">Обсудить съёмку</a></div>
+    </div></div>
+  </div>
+
+  <div class="hero__box"><div class="wrap">
+    <div class="eyebrow">Реклама · fashion · клипы</div>
+    <h1 style="margin-top:18px">Реклама, fashion и&nbsp;клипы <span class="accent">для&nbsp;брендов</span></h1>
+    <div class="row"><p class="muted">Пример подзаголовка: коммерческая съёмка под ключ — от&nbsp;идеи и&nbsp;сценария до&nbsp;монтажа и&nbsp;цвета.</p><div class="cta" style="margin:0"><a class="btn" href="#">Обсудить съёмку</a></div></div>
+    <div class="frame"><span class="pl"><span class="play"></span></span><span class="rec"><i></i>SHOWREEL 2026</span><span class="tc">00:00:00 / 01:48</span></div>
+  </div></div>
+
+  <div class="hero__reels"><div class="wrap g">
+    <div>
+      <div class="eyebrow">Реклама · fashion · клипы</div>
+      <h1 style="margin-top:18px">Реклама, fashion и&nbsp;клипы <span class="accent">для&nbsp;брендов</span></h1>
+      <p class="muted">Пример подзаголовка: коммерческая съёмка под ключ — от&nbsp;идеи и&nbsp;сценария до&nbsp;монтажа и&nbsp;цвета.</p>
+      <div class="cta"><a class="btn" href="#">Обсудить съёмку</a><a class="btn btn--ghost" href="#"><span class="play"></span>Шоурил</a></div>
+    </div>
+    <div class="reels">
+      <div class="frame"><span class="pl"><span class="play"></span></span><span class="tc">0:15 · 9:16</span></div>
+      <div class="frame"><span class="pl"><span class="play"></span></span><span class="tc">0:31</span></div>
+      <div class="frame"><span class="pl"><span class="play"></span></span><span class="tc">0:18</span></div>
+    </div>
+  </div></div>
+</section>
+
+<div class="wrap"><div class="logos"><span>Бренд</span><span>Бренд</span><span>Бренд</span><span>Бренд</span><span>Бренд</span><span>Бренд</span></div></div>
+
+<section class="sec"><div class="wrap">
+  <div class="head"><div><div class="eyebrow">Портфолио</div><h2>Работы</h2></div><div class="tabs"><span class="on">Все</span><span>Реклама</span><span>Fashion</span><span>Клипы</span><span>Бренды</span></div></div>
+  <div class="works">
+    <div class="item"><div class="frame"><span class="pl"><span class="play"></span></span><div class="cap"><b>Бренд — рекламная кампания</b><span>Реклама</span></div><span class="tc">03:42</span></div><div class="meta">Название проекта · 1.2 млн просмотров</div></div>
+    <div class="item"><div class="frame"><span class="pl"><span class="play"></span></span><div class="cap"><b>Fashion — лукбук сезона</b><span>Fashion</span></div><span class="tc">00:30</span></div><div class="meta">Бренд — рекламный ролик · 84 тыс. просмотров</div></div>
+    <div class="item"><div class="frame"><span class="pl"><span class="play"></span></span><div class="cap"><b>Артист — «Название трека»</b><span>Клип</span></div><span class="tc">02:10</span></div><div class="meta">Конференция · 12 тыс. просмотров</div></div>
+    <div class="item"><div class="frame"><span class="pl"><span class="play"></span></span><div class="cap"><b>Вертикальная реклама</b><span>Реклама</span></div><span class="tc">00:21</span></div><div class="meta">Reels для кафе · 310 тыс. просмотров</div></div>
+    <div class="item"><div class="frame"><span class="pl"><span class="play"></span></span><div class="cap"><b>Fashion-тизер</b><span>Fashion</span></div><span class="tc">00:17</span></div><div class="meta">Reels для бренда · 95 тыс. просмотров</div></div>
+    <div class="item"><div class="frame"><span class="pl"><span class="play"></span></span><div class="cap"><b>Имиджевый ролик бренда</b><span>Бренды</span></div><span class="tc">01:55</span></div><div class="meta">Love story · 47 тыс. просмотров</div></div>
+    <div class="item"><div class="frame"><span class="pl"><span class="play"></span></span><div class="cap"><b>Бэкстейдж съёмки</b><span>Бренды</span></div><span class="tc">01:05</span></div><div class="meta">Имиджевый ролик · 160 тыс. просмотров</div></div>
+    <div class="item"><div class="frame"><span class="pl"><span class="play"></span></span><div class="cap"><b>Артист — live-сессия</b><span>Клип</span></div><span class="tc">03:28</span></div><div class="meta">Клип · 2.3 млн просмотров</div></div>
+  </div>
+</div></section>
+
+<section class="sec sec--alt"><div class="wrap">
+  <div class="head"><div><div class="eyebrow">Услуги и цены</div><h2>Форматы съёмки</h2></div><p class="muted" style="max-width:360px;margin:0">Цены — заглушки. Итог зависит от&nbsp;длительности и&nbsp;монтажа.</p></div>
+  <div class="pkgs">
+    <div class="pkg"><h3>Рекламный ролик</h3><div class="price">от&nbsp;__&nbsp;000&nbsp;₽</div><ul><li>идея и&nbsp;сценарий</li><li>съёмочный день</li><li>ролик + версии 16:9 и&nbsp;9:16</li></ul><a class="btn btn--ghost" href="#">Выбрать</a></div>
+    <div class="pkg hot"><h3>Fashion / лукбук</h3><div class="price">от&nbsp;__&nbsp;000&nbsp;₽</div><ul><li>съёмка коллекции</li><li>видео-лукбук + тизеры</li><li>цветокоррекция под бренд</li></ul><a class="btn" href="#">Выбрать</a></div>
+    <div class="pkg"><h3>Музыкальный клип</h3><div class="price">от&nbsp;__&nbsp;000&nbsp;₽</div><ul><li>концепция и&nbsp;раскадровка</li><li>съёмочная группа, свет</li><li>монтаж, цвет, эффекты</li></ul><a class="btn btn--ghost" href="#">Выбрать</a></div>
+  </div>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="head"><div><div class="eyebrow">Как работаем</div><h2>От идеи до&nbsp;готового ролика</h2></div></div>
+  <div class="steps">
+    <div class="step"><b>01</b><h3>Бриф</h3><p>Задача бренда, аудитория, площадки.</p></div>
+    <div class="step"><b>02</b><h3>Концепция</h3><p>Идея, сценарий, раскадровка, референсы.</p></div>
+    <div class="step"><b>03</b><h3>Продакшн</h3><p>Команда, локации, свет, модели.</p></div>
+    <div class="step"><b>04</b><h3>Постпродакшн</h3><p>Монтаж, цвет, звук, версии под площадки.</p></div>
+  </div>
+</div></section>
+
+<section class="sec sec--alt"><div class="wrap about">
+  <div class="frame"></div>
+  <div>
+    <div class="eyebrow">Обо мне</div><h2 style="margin-top:14px">Имя Фамилия</h2>
+    <p class="muted">Пример текста о&nbsp;себе: опыт, подход к&nbsp;съёмке, что для вас важно в&nbsp;работе с&nbsp;клиентом.</p>
+    <div class="facts"><div><b>N</b><span>лет снимаю</span></div><div><b>N+</b><span>брендов</span></div><div><b>N</b><span>клипов</span></div></div>
+    <div class="gear">КАМЕРА · ОБЪЕКТИВЫ · СВЕТ · ЗВУК · ДРОН</div>
+  </div>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="head"><div><div class="eyebrow">Отзывы</div><h2>Что говорят клиенты</h2></div></div>
+  <div class="revs">
+    <div class="rev"><div class="frame"><span class="pl"><span class="play"></span></span><div class="cap"><b>Бренд</b><span>отзыв клиента</span></div></div><p class="muted">Короткая цитата из&nbsp;отзыва.</p></div>
+    <div class="rev"><div class="frame"><span class="pl"><span class="play"></span></span><div class="cap"><b>Бренд</b><span>отзыв клиента</span></div></div><p class="muted">Короткая цитата из&nbsp;отзыва.</p></div>
+    <div class="rev"><div class="frame"><span class="pl"><span class="play"></span></span><div class="cap"><b>Бренд</b><span>отзыв клиента</span></div></div><p class="muted">Короткая цитата из&nbsp;отзыва.</p></div>
+  </div>
+</div></section>
+
+<section class="sec sec--alt"><div class="wrap form">
+  <div><div class="eyebrow">Контакты</div><h2 style="margin-top:14px">Расскажите о&nbsp;проекте</h2><p class="muted">Пришлите задачу — предложу идею, формат и&nbsp;смету.</p><p style="font-size:22px;font-weight:700;margin-top:26px">+7 (000) 000-00-00<br><span class="muted" style="font-size:15px;font-weight:500">Telegram · WhatsApp · VK</span></p></div>
+  <div class="fields">
+    <input class="field" placeholder="Имя" aria-label="Имя"><input class="field" placeholder="Бренд или артист" aria-label="Дата">
+    <div class="full chips"><span class="on">Реклама</span><span>Fashion</span><span>Клип</span><span>Имиджевый ролик</span><span>Другое</span></div>
+    <input class="field full" placeholder="Телефон или Telegram" aria-label="Контакт">
+    <textarea class="field full" rows="3" placeholder="Коротко о задаче" aria-label="Задача"></textarea>
+    <div class="full"><a class="btn" href="#">Отправить заявку</a></div>
+  </div>
+</div></section>
+
+<footer class="wrap"><div class="big">Имя Фамилия</div><div class="foot"><span>© 2026 · видеограф</span><span>Политика конфиденциальности</span></div></footer>
+
+<div class="note"><a href="../" style="text-decoration:underline">← все варианты</a> · Прототип «Кино тёмный»: видео — заглушки, тексты и цены — примеры.</div>
+
+<aside class="panel min" id="panel">
+  <div class="phd" id="phd"><b>Стиль: видеограф</b><span id="pt">развернуть ▴</span></div>
+  <div class="pb">
+    <div class="grp">Готовые стили</div>
+    <div class="presets" id="presets">
+      <button data-p="cinema">Кино тёмный<small>чёрный · красный REC · Oswald</small></button>
+      <button data-p="editorial">Редакционный<small>светлый · огромный шрифт</small></button>
+      <button data-p="wedding">Fashion<small>белый · чёрный · тонкие засечки</small></button>
+      <button data-p="content">Яркий брендовый<small>лайм · Unbounded · вертикальные</small></button>
+      <button data-p="label">Лейбл (как GAZ)<small>чёрный гранж · золото · узкий</small></button>
+    </div>
+    <div class="grp">Первый экран</div>
+    <div class="seg3" id="heroMode"><button data-v="full">Шоурил на весь экран</button><button data-v="box">Заголовок + ролик</button><button data-v="reels">Вертикальные ролики</button></div>
+    <div class="grp">Портфолио</div>
+    <div class="seg3 two" id="grid"><button data-v="even">Ровная сетка 16:9</button><button data-v="mix">Мозаика с вертикальными</button></div>
+    <div class="seg3 two" id="cols"><button data-v="3">3 в ряд</button><button data-v="4">4 в ряд</button></div>
+    <div class="seg3 two" id="meta"><button data-v="0">Подпись на кадре</button><button data-v="1">Подпись под кадром</button></div>
+    <div class="grp">Детали</div>
+    <div class="seg3 two" id="tex"><button data-v="0">Гладкий фон</button><button data-v="1">Зернистая текстура</button></div>
+    <div class="seg3 two" id="frameB"><button data-v="0">Без рамки у роликов</button><button data-v="1">Рамка акцентом</button></div>
+    <div class="seg3 two" id="line"><button data-v="0">Без линии</button><button data-v="1">Линия от заголовка</button></div>
+    <div class="grp">Шрифты</div>
+    <div class="ctl"><label for="c-fh">Заголовки</label><select id="c-fh" data-k="fh">
+      <option value="'Oswald',sans-serif">Oswald (узкий)</option><option value="'Unbounded',sans-serif">Unbounded</option><option value="'Manrope',sans-serif">Manrope</option><option value="'Montserrat',sans-serif">Montserrat</option><option value="'Cormorant Garamond',serif">Cormorant (засечки)</option><option value="'Onest',sans-serif">Onest</option></select></div>
+    <div class="ctl"><label for="c-fb">Текст</label><select id="c-fb" data-k="fb">
+      <option value="'Manrope',sans-serif">Manrope</option><option value="'Onest',sans-serif">Onest</option><option value="'Golos Text',sans-serif">Golos Text</option><option value="'Montserrat',sans-serif">Montserrat</option></select></div>
+    <div class="seg3" id="hcase"><button data-v="uppercase">ЗАГЛАВНЫЕ</button><button data-v="none">Обычные</button><button data-v="italic">Курсив</button></div>
+    <div class="ctl"><label for="c-h1">Заголовок экрана <output data-o="h1"></output></label><input type="range" id="c-h1" data-k="h1" min="40" max="140"></div>
+    <div class="ctl"><label for="c-h2">Заголовки блоков <output data-o="h2"></output></label><input type="range" id="c-h2" data-k="h2" min="28" max="96"></div>
+    <div class="ctl"><label for="c-hw">Жирность <output data-o="hw"></output></label><input type="range" id="c-hw" data-k="hw" min="300" max="800" step="100"></div>
+    <div class="grp">Цвет</div>
+    <div class="ctl"><label>Акцент</label><div class="sw" id="sw">
+      <button style="background:#E5484D" data-c="#E5484D"></button><button style="background:#FF5A1F" data-c="#FF5A1F"></button><button style="background:#C6FF3A" data-c="#C6FF3A"></button><button style="background:#B08968" data-c="#B08968"></button><button style="background:#7B61FF" data-c="#7B61FF"></button><button style="background:#F5C542" data-c="#F5C542"></button><button style="background:#111111" data-c="#111111"></button>
+      <input type="color" id="c-acc" aria-label="Свой цвет"></div></div>
+    <div class="grp">Форма</div>
+    <div class="ctl"><label for="c-r">Закругление <output data-o="r"></output></label><input type="range" id="c-r" data-k="r" min="0" max="32"></div>
+    <div class="ctl"><label for="c-gap">Промежуток в сетке <output data-o="gap"></output></label><input type="range" id="c-gap" data-k="gap" min="0" max="32"></div>
+    <div class="ctl"><label for="c-pad">Отступ блоков <output data-o="pad"></output></label><input type="range" id="c-pad" data-k="pad" min="48" max="180" step="4"></div>
+    <div class="pbtns"><button id="copy">Скопировать значения</button></div>
+    <div class="copied" id="copied"></div>
+  </div>
+</aside>
+
+<script>
+(function(){
+  var R=document.documentElement,B=document.body;
+  function hex(h){h=h.replace('#','');return[parseInt(h.substr(0,2),16),parseInt(h.substr(2,2),16),parseInt(h.substr(4,2),16)]}
+  function lum(h){var c=hex(h).map(function(v){v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)});return .2126*c[0]+.7152*c[1]+.0722*c[2]}
+  var P={
+    cinema:{name:'Кино тёмный',bg:'#0A0A0B',surface:'#131315',ink:'#EDEDED',muted:'#8B8B90',line:'#26262A',accent:'#E5484D',s1:'#14202c',s2:'#5a2c24',s3:'#c7874a',fh:"'Oswald',sans-serif",fb:"'Manrope',sans-serif",hcase:'uppercase',hw:400,track:'.02em',h1:96,h2:56,r:2,btn:999,gap:10,pad:120,hero:'full',grid:'mix',cols:'3',meta:'0',tex:'1',frame:'0',line:'0'},
+    editorial:{name:'Редакционный',bg:'#F4F3EF',surface:'#EBE9E3',ink:'#111111',muted:'#6B6A66',line:'#D6D3CB',accent:'#FF5A1F',s1:'#2f3a3a',s2:'#8f8a80',s3:'#d9d2c3',fh:"'Manrope',sans-serif",fb:"'Manrope',sans-serif",hcase:'none',hw:800,track:'-.055em',h1:118,h2:72,r:0,btn:0,gap:4,pad:130,hero:'box',grid:'even',cols:'3',meta:'1',tex:'0',frame:'0',line:'1'},
+    wedding:{name:'Fashion',bg:'#FFFFFF',surface:'#F3F3F3',ink:'#0A0A0A',muted:'#6E6E6E',line:'#E2E2E2',accent:'#0A0A0A',s1:'#1b1b1b',s2:'#7d7d7d',s3:'#e8e4de',fh:"'Cormorant Garamond',serif",fb:"'Manrope',sans-serif",hcase:'uppercase',hw:500,track:'.04em',h1:104,h2:64,r:0,btn:0,gap:6,pad:120,hero:'box',grid:'mix',cols:'3',meta:'0',tex:'0',frame:'0',line:'0'},
+    label:{name:'Лейбл (как GAZ)',bg:'#0B0B0A',surface:'#121210',ink:'#E9E4D6',muted:'#8E8672',line:'#2A2720',accent:'#C9A24A',s1:'#1a1a1a',s2:'#4a3a24',s3:'#9c7b3c',fh:"'Oswald',sans-serif",fb:"'Montserrat',sans-serif",hcase:'uppercase',hw:500,track:'.01em',h1:84,h2:56,r:0,btn:0,gap:22,pad:90,hero:'box',grid:'even',cols:'4',meta:'1',tex:'1',frame:'1',line:'1'},
+    content:{name:'Яркий брендовый',bg:'#FFFFFF',surface:'#F2F2F5',ink:'#0E0E12',muted:'#62626E',line:'#E3E3EA',accent:'#C6FF3A',s1:'#3b2cf0',s2:'#ff4fa3',s3:'#ffd23f',fh:"'Unbounded',sans-serif",fb:"'Onest',sans-serif",hcase:'none',hw:700,track:'-.03em',h1:74,h2:50,r:24,btn:999,gap:14,pad:96,hero:'reels',grid:'mix',cols:'3',meta:'0',tex:'0',frame:'0',line:'0'}
+  };
+  var KEY='videograf-kino',S;
+    S=Object.assign({preset:'cinema'},P['cinema']);
+  function apply(){
+    var set=function(k,v){R.style.setProperty(k,v)};
+    ['bg','surface','ink','muted','line','accent','s1','s2','s3'].forEach(function(k){set('--'+k,S[k])});
+    set('--accent-ink',lum(S.accent)>.45?'#0E0E12':'#FFFFFF');
+    set('--fh',S.fh);set('--fb',S.fb);
+    set('--h-case',S.hcase==='uppercase'?'uppercase':'none');set('--h-style',S.hcase==='italic'?'italic':'normal');
+    set('--h-weight',S.hw);set('--h-track',S.track);set('--h-line',S.fh.indexOf('Cormorant')>-1?'.98':(S.fh.indexOf('Oswald')>-1?'1':'1.02'));
+    set('--h1',S.h1+'px');set('--h2',S.h2+'px');set('--radius',S.r+'px');set('--btn-radius',S.btn+'px');set('--gap',S.gap+'px');set('--pad',S.pad+'px');
+    B.dataset.hero=S.hero;B.dataset.grid=S.grid;B.dataset.cols=S.cols||'3';B.dataset.meta=S.meta||'0';B.dataset.tex=S.tex||'0';B.dataset.frame=S.frame||'0';B.dataset.line=S.line||'0';
+    document.querySelectorAll('[data-k]').forEach(function(i){i.value=S[i.dataset.k]});
+    document.querySelectorAll('[data-o]').forEach(function(o){var k=o.dataset.o;o.textContent=S[k]+(k==='hw'?'':' px')});
+    mark('presets','p',S.preset);mark('heroMode','v',S.hero);mark('grid','v',S.grid);mark('hcase','v',S.hcase);mark('cols','v',S.cols);mark('meta','v',S.meta);mark('tex','v',S.tex);mark('frameB','v',S.frame);mark('line','v',S.line);
+    document.getElementById('c-acc').value=S.accent;
+    try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}
+  }
+  function mark(id,a,v){document.querySelectorAll('#'+id+' button').forEach(function(b){b.classList.toggle('on',b.dataset[a]===String(v))})}
+  function seg(id,k){document.querySelectorAll('#'+id+' button').forEach(function(b){b.addEventListener('click',function(){S[k]=b.dataset.v;apply()})})}
+  document.querySelectorAll('#presets button').forEach(function(b){b.addEventListener('click',function(){S=Object.assign({preset:b.dataset.p},P[b.dataset.p]);apply()})});
+  seg('heroMode','hero');seg('grid','grid');seg('hcase','hcase');seg('cols','cols');seg('meta','meta');seg('tex','tex');seg('frameB','frame');seg('line','line');
+  document.querySelectorAll('[data-k]').forEach(function(i){i.addEventListener('input',function(){S[i.dataset.k]=i.tagName==='SELECT'?i.value:Number(i.value);apply()})});
+  document.querySelectorAll('#sw button').forEach(function(b){b.addEventListener('click',function(){S.accent=b.dataset.c;apply()})});
+  document.getElementById('c-acc').addEventListener('input',function(e){S.accent=e.target.value;apply()});
+  var panel=document.getElementById('panel');
+  document.getElementById('phd').addEventListener('click',function(){panel.classList.toggle('min');document.getElementById('pt').textContent=panel.classList.contains('min')?'развернуть ▴':'свернуть ▾'});
+  document.getElementById('copy').addEventListener('click',function(){
+    var fn=function(f){return f.split(',')[0].replace(/'/g,'')};
+    var t=['Видеограф — выбранный стиль','Основа: '+(P[S.preset]?P[S.preset].name:S.preset),'Первый экран: '+({full:'шоурил на весь экран',box:'заголовок + ролик',reels:'вертикальные ролики'}[S.hero]),'Портфолио: '+(S.grid==='mix'?'мозаика с вертикальными':'ровная сетка 16:9'),
+      'Шрифты: заголовки '+fn(S.fh)+' ('+({uppercase:'заглавные',none:'обычные',italic:'курсив'}[S.hcase])+', '+S.hw+'), текст '+fn(S.fb),'Размеры: H1 '+S.h1+' px, H2 '+S.h2+' px','Акцент '+S.accent+', фон '+S.bg+', текст '+S.ink,
+      'Сетка '+S.cols+' в ряд, подпись '+(S.meta==='1'?'под кадром':'на кадре')+', текстура '+(S.tex==='1'?'да':'нет')+', рамка роликов '+(S.frame==='1'?'да':'нет')+', линия от заголовков '+(S.line==='1'?'да':'нет'),'Закругление '+S.r+' px, промежуток '+S.gap+' px, отступ блоков '+S.pad+' px'].join('\n');
+    var done=function(){var c=document.getElementById('copied');c.textContent='Скопировано — пришлите в чат';setTimeout(function(){c.textContent=''},3000)};
+    if(navigator.clipboard)navigator.clipboard.writeText(t).then(done,function(){prompt('Скопируйте:',t)});else prompt('Скопируйте:',t);
+  });
+  apply();
+})();
+</script>
+</body>
+</html>

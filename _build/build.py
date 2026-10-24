@@ -23,7 +23,9 @@ for key,slug,name,desc in V:
     s=must(s,'<div class="note">Прототип стиля: видео — стилизованные заглушки, тексты и цены — примеры.</div>',
       '<div class="note"><a href="../" style="text-decoration:underline">← все варианты</a> · «'+name+'»: видео — заглушки, тексты и цены — примеры.</div>')
     os.makedirs(os.path.join(ROOT,slug),exist_ok=True); open(os.path.join(ROOT,slug,'index.html'),'w',encoding='utf-8').write(s)
-cards=''.join(f'<a class="v" href="{slug}/"><span class="n">0{i+1}</span><b>{name}</b><p>{desc}</p><span class="go">Открыть →</span></a>' for i,(k,slug,name,desc) in enumerate(V))
+# yellow/ — отдельный вариант, собирается не из style-proto, а правится вручную
+EXTRA=[('yellow','Чёрно-жёлтый','Мятая чёрная бумага, жёлтые заголовки и рамки, огромная типографика и анимации появления. В духе gaz.team, со своими цветами.')]
+cards=''.join(f'<a class="v" href="{slug}/"><span class="n">0{i+1}</span><b>{name}</b><p>{desc}</p><span class="go">Открыть →</span></a>' for i,(k,slug,name,desc) in enumerate(V))+''.join(f'<a class="v" href="{slug}/"><span class="n">0{len(V)+i+1}</span><b>{name}</b><p>{desc}</p><span class="go">Открыть →</span></a>' for i,(slug,name,desc) in enumerate(EXTRA))
 idx=f'''<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
 <title>FILMED BY ROMARIO — варианты прототипа</title><link rel="icon" type="image/png" href="favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
@@ -43,7 +45,7 @@ h1{{font-size:clamp(34px,6vw,64px);line-height:1;letter-spacing:-.04em;margin:14
 </style></head><body><div class="w">
 <span class="mark" aria-hidden="true"></span>
 <div class="e">FILMED BY ROMARIO · прототип сайта</div>
-<h1>Пять вариантов<br>оформления</h1>
+<h1>Шесть вариантов<br>оформления</h1>
 <p class="l">Реклама, fashion, клипы для брендов. Структура и тексты одинаковые — отличается только стиль. Видео и цены — заглушки. В каждом варианте справа внизу есть панель, в которой можно подкрутить шрифты, цвет и отступы.</p>
 <div class="g">{cards}</div></div></body></html>'''
 open(os.path.join(ROOT,'index.html'),'w',encoding='utf-8').write(idx)

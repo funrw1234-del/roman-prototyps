@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Filmed by Romario — видеограф: музыкальные клипы, события, спорт и автомобильные видео.">
+<title>FILMED BY ROMARIO — Чёрно-жёлтый</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="../favicon.png">
+<script>document.documentElement.classList.add('js');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;700&family=Oswald:wght@400;500&family=Cormorant+Garamond:ital,wght@1,300;1,400&display=swap">
+
+<style>
+  /* Layout: мятая чёрная бумага, белая гигантская типографика, жёлтый — заголовки, рамки превью, подписи и линии */
+  :root {
+    color-scheme: dark;
+    --void: #080808;
+    --charcoal: #141313;
+    --bone: #fcfcfc;
+    --ash: #cfcbc4;
+    --iron: #4a4740;
+    --yellow: oklch(82% 0.16 86);
+    --yellow-dim: oklch(60% 0.11 86);
+    --yellow-faint: oklch(82% 0.16 86 / 0.18);
+    --yellow-ink: #0b0a06;
+    --font-sans: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+    --font-cond: 'Oswald', 'Bebas Neue', 'Arial Narrow', sans-serif;
+    --font-serif: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+    --gutter: 48px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--void); color: var(--bone); font-family: var(--font-sans);
+    font-size: 15px; line-height: 1.5; letter-spacing: -0.01em; overflow-x: hidden; }
+  a { color: inherit; text-decoration: none; }
+  h1, h2, h3, p { margin: 0; }
+  h2 { text-wrap: balance; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+  :focus-visible { outline: 1px solid var(--yellow); outline-offset: 4px; }
+  ::selection { background: var(--yellow); color: var(--yellow-ink); }
+
+  .band { padding-left: max(var(--gutter), env(safe-area-inset-left, 0px)); padding-right: max(var(--gutter), env(safe-area-inset-right, 0px)); }
+
+  /* Фон: мятая чёрная бумага на весь экран, стоит на месте при прокрутке */
+  .bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; background-color: var(--void);
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1600' height='1000'><filter id='p' x='0' y='0' width='100%25' height='100%25' color-interpolation-filters='sRGB'><feTurbulence type='turbulence' baseFrequency='0.0032 0.0048' numOctaves='6' seed='11' result='n'/><feDiffuseLighting in='n' lighting-color='white' surfaceScale='9' result='l'><feDistantLight azimuth='225' elevation='46'/></feDiffuseLighting><feComponentTransfer><feFuncR type='gamma' amplitude='0.19' exponent='2.3'/><feFuncG type='gamma' amplitude='0.19' exponent='2.3'/><feFuncB type='gamma' amplitude='0.18' exponent='2.3'/></feComponentTransfer></filter><rect width='100%25' height='100%25' filter='url(%23p)'/></svg>");
+    background-size: cover; background-position: center; }
+  .bg::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 30%, transparent 30%, rgb(0 0 0 / 0.7) 100%); }
+  .grain { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.05; mix-blend-mode: overlay;
+    background-image: repeating-linear-gradient(0deg, transparent 0 2px, rgb(252 252 252 / 0.6) 3px, transparent 4px); }
+  main, header, footer { position: relative; z-index: 1; }
+
+  .label { font-family: var(--font-cond); font-size: 13px; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--yellow-dim); line-height: 1.2; }
+  .it { font-family: var(--font-serif); font-style: italic; font-weight: 300; text-transform: none; letter-spacing: -0.02em; color: var(--yellow); }
+  .dot { display: inline-block; width: 0.16em; height: 0.16em; min-width: 12px; min-height: 12px; border-radius: 50%; background: var(--yellow); }
+  .arrow { display: inline-block; transition: transform .3s ease; }
+  a:hover .arrow { transform: translate(3px, -3px); }
+
+  /* Анимации */
+  @keyframes rise { from { transform: translateY(110%); } to { transform: none; } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes pop { 0% { transform: scale(0); } 70% { transform: scale(1.4); } 100% { transform: scale(1); } }
+  @keyframes ghostIn { from { opacity: 0; translate: 10vw 0; } to { opacity: 1; translate: 0 0; } }
+  @keyframes drift { from { rotate: -2deg; } to { rotate: 2deg; } }
+  @keyframes lineGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @keyframes cardIn { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+
+  .js .hero:not(.is-on) .wordmark .in { transform: translateY(110%); }
+  .js .hero:not(.is-on) .dot, .js .hero:not(.is-on) .ghost-r { opacity: 0; }
+  .js .hero:not(.is-on) .hero-actions, .js body:not(.ready) header { opacity: 0; }
+  .hero.is-on .wordmark .in { animation: rise 1.1s cubic-bezier(.2,.7,.1,1) both; }
+  .hero.is-on .wordmark .line + .line .in { animation-delay: .15s; }
+  .hero.is-on .wordmark .dot { animation: pop .55s cubic-bezier(.3,1.6,.5,1) 1s both; }
+  .hero.is-on .ghost-r { animation: ghostIn 1.8s cubic-bezier(.2,.7,.1,1) .2s both, drift 9s ease-in-out 2s infinite alternate; }
+  .hero.is-on .hero-actions { animation: fadeUp .9s ease .75s both; }
+  body.ready header { animation: fadeIn 1s ease .4s both; }
+
+  .reveal { transition: opacity 1s ease, transform 1s cubic-bezier(.2,.7,.1,1); }
+  .reveal.pre { opacity: 0; transform: translateY(40px); }
+  .head-line.reveal.pre { opacity: 1; transform: scaleX(0); }
+  .head-line.reveal { transition: transform 1.2s cubic-bezier(.2,.7,.1,1) .2s; transform-origin: left; }
+
+  /* Шапка */
+  header { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-block: 28px; }
+  .logo { font-weight: 700; font-size: 18px; letter-spacing: -0.04em; text-transform: uppercase; white-space: nowrap; }
+  .logo .it { font-size: 20px; margin: 0 3px; }
+  .logo .y { color: var(--yellow); }
+  nav.navlinks { display: flex; gap: 34px; }
+  nav.navlinks a { font-size: 15px; transition: color .25s ease; }
+  nav.navlinks a:hover { color: var(--yellow); }
+  .btn-ghost { display: inline-flex; align-items: center; gap: 10px; padding: 11px 22px; border: 1px solid var(--yellow); border-radius: 3px;
+    font-family: var(--font-cond); font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--yellow); white-space: nowrap;
+    transition: background-color .3s ease, color .3s ease; }
+  .btn-ghost:hover { background: var(--yellow); color: var(--yellow-ink); }
+
+  /* Хиро */
+  .hero { position: relative; overflow: hidden; padding-block: 88px 104px; }
+  .hero .ghost-r { position: absolute; right: -4vw; top: 50%; transform: translateY(-52%); font-weight: 700; font-size: clamp(320px, 52vw, 820px);
+    line-height: 0.8; letter-spacing: -0.08em; color: transparent; -webkit-text-stroke: 1.5px var(--yellow-faint); pointer-events: none; user-select: none; z-index: -1; }
+  .wordmark { font-weight: 700; text-transform: uppercase; font-size: clamp(60px, 14.5vw, 210px); line-height: 0.88; letter-spacing: -0.075em; }
+  .wordmark .line { display: block; white-space: nowrap; overflow: hidden; padding-block: 0.06em 0.1em; margin-block: -0.06em -0.1em; }
+  .wordmark .in { display: inline-block; }
+  .wordmark .y { color: var(--yellow); }
+  .wordmark .it { font-size: 0.42em; margin-right: 0.12em; vertical-align: 0.38em; letter-spacing: -0.03em; color: var(--bone); }
+  .wordmark .dot { margin-left: 0.06em; vertical-align: 0.02em; background: var(--bone); }
+  .hero-actions { display: flex; gap: 40px; flex-wrap: wrap; margin-top: 56px; }
+  .cta-link { display: inline-flex; align-items: center; gap: 10px; padding-block: 8px; font-family: var(--font-cond); font-size: 16px; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--yellow); border-bottom: 1px solid var(--yellow-dim); transition: border-color .3s ease; }
+  .cta-link:hover { border-color: var(--yellow); }
+
+  /* Заголовок раздела: белые капсы + жёлтое курсивное слово + жёлтая линия до края */
+  section { padding-block: 96px; }
+  .section-head { display: flex; align-items: flex-end; gap: 32px; margin-bottom: 44px; }
+  .h-display { font-weight: 700; text-transform: uppercase; font-size: clamp(44px, 7vw, 96px); line-height: 0.9; letter-spacing: -0.065em; }
+  .h-display .it { font-size: 0.62em; letter-spacing: -0.03em; }
+  .head-line { flex: 1; min-width: 40px; height: 1px; background: var(--yellow); margin-bottom: 0.9em; }
+
+  /* Фильтры — как «— ВИДЕО —» */
+  .tabs { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; display: flex; align-items: center; gap: 30px; flex-wrap: wrap;
+    padding-block: 16px; margin-bottom: 36px; background: rgb(8 8 8 / 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+  .tab { appearance: none; background: none; border: 0; padding: 6px 0; cursor: pointer; display: inline-flex; align-items: center; gap: 0;
+    font-family: var(--font-cond); font-size: 16px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--yellow-dim); transition: color .3s ease, gap .4s ease; }
+  .tab::before, .tab::after { content: ""; display: inline-block; height: 1px; width: 0; background: var(--yellow); transition: width .4s cubic-bezier(.2,.7,.1,1); }
+  .tab:hover { color: var(--yellow); }
+  .tab.active { color: var(--yellow); gap: 8px; }
+  .tab.active::before, .tab.active::after { width: 16px; }
+  .count { margin-left: auto; font-family: var(--font-cond); font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--iron); font-variant-numeric: tabular-nums; }
+
+  /* Сетка работ: превью в жёлтой рамке + жёлтая подпись */
+  .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 44px 24px; }
+  .card { display: flex; flex-direction: column; gap: 14px; min-width: 0; transition: opacity .25s ease, transform .25s ease; }
+  .grid.leaving .card { opacity: 0; transform: translateY(12px); }
+  .grid.entering .card { animation: cardIn .75s cubic-bezier(.2,.7,.1,1) both; animation-delay: calc(var(--i) * 80ms); }
+  .poster { position: relative; display: block; aspect-ratio: 16 / 9; max-width: 100%; background: var(--charcoal); overflow: hidden; border: 1px solid var(--yellow);
+    box-shadow: 0 0 0 0 var(--yellow-dim); transition: transform .35s cubic-bezier(.2,.7,.1,1), box-shadow .35s cubic-bezier(.2,.7,.1,1); }
+  .card:hover .poster { transform: translate(-5px, -5px); box-shadow: 10px 10px 0 0 var(--yellow-dim); }
+  .poster svg.pattern { position: absolute; inset: 0; width: 100%; height: 100%; transition: transform 1.2s cubic-bezier(.2,.7,.1,1); }
+  .card:hover .poster svg.pattern { transform: scale(1.1); }
+  .play { position: absolute; left: 50%; top: 50%; width: 46px; height: 34px; margin: -17px 0 0 -23px; border-radius: 6px; background: rgb(8 8 8 / 0.7);
+    display: flex; align-items: center; justify-content: center; color: var(--yellow); transition: background-color .3s ease, color .3s ease; }
+  .card:hover .play { background: var(--yellow); color: var(--yellow-ink); }
+  .dur { position: absolute; right: 8px; bottom: 8px; font-family: var(--font-cond); font-size: 12px; letter-spacing: 0.06em; color: var(--bone);
+    background: rgb(8 8 8 / 0.75); padding: 1px 6px; font-variant-numeric: tabular-nums; }
+  .card-title { font-family: var(--font-cond); font-weight: 500; font-size: 16px; line-height: 1.3; letter-spacing: 0.04em; text-transform: uppercase; color: var(--yellow); overflow-wrap: anywhere; }
+  .card-meta { margin-top: -8px; }
+
+  /* Направления */
+  .services-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+  .service { display: flex; flex-direction: column; gap: 14px; padding-top: 22px; border-top: 1px solid var(--yellow-dim); min-width: 0; transition: border-color .3s ease; }
+  .service:hover { border-color: var(--yellow); }
+  .service h3 { font-size: 24px; font-weight: 700; line-height: 1.1; letter-spacing: -0.04em; text-transform: uppercase; }
+  .service p { color: var(--ash); font-weight: 300; font-size: 15px; max-width: 34ch; }
+
+  /* Обо мне — жёлтый разворот с чёрным текстом */
+  .about { background: var(--yellow); color: var(--yellow-ink); }
+  .about .inner { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 48px; align-items: start; }
+  .about .label { color: var(--yellow-ink); opacity: 0.7; margin-bottom: 20px; }
+  .about .it { color: var(--yellow-ink); }
+  .about p.lead { font-size: 20px; line-height: 1.5; max-width: 58ch; }
+  .about p.lead + p.lead { margin-top: 18px; }
+
+  /* Подвал */
+  footer { background: rgb(14 13 12 / 0.82); padding-block: 112px 40px; border-top: 1px solid var(--yellow-dim); }
+  .cta h2 { max-width: 12ch; }
+  .contacts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; margin-top: 64px; }
+  .contact { display: flex; flex-direction: column; gap: 10px; padding-top: 18px; border-top: 1px solid var(--iron); min-width: 0; }
+  .contact b { font-family: var(--font-cond); font-weight: 400; font-size: 20px; letter-spacing: 0.04em; color: var(--yellow); overflow-wrap: anywhere; user-select: all; }
+  .foot-bottom { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 96px; padding-top: 24px; border-top: 1px solid var(--iron); }
+  .foot-bottom nav { display: flex; gap: 28px; }
+  .foot-bottom a:hover { color: var(--yellow); }
+
+  @media (max-width: 1100px) {
+    :root { --gutter: 32px; }
+    .grid, .services-grid, .contacts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    nav.navlinks { gap: 22px; }
+  }
+  @media (max-width: 760px) {
+    nav.navlinks { display: none; }
+    .about .inner { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 520px) {
+    :root { --gutter: 20px; }
+    header { padding-block: 20px; }
+    .btn-ghost { padding: 9px 14px; }
+    .hero { padding-block: 64px 80px; }
+    section { padding-block: 72px; }
+    .grid, .services-grid, .contacts { grid-template-columns: 1fr; }
+    .tabs { gap: 18px; }
+    .count { margin-left: 0; width: 100%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .reveal.pre { opacity: 1; transform: none; }
+    .js .hero:not(.is-on) .wordmark .in { transform: none; }
+    .js .hero:not(.is-on) .dot, .js .hero:not(.is-on) .ghost-r, .js .hero:not(.is-on) .hero-actions, .js body:not(.ready) header { opacity: 1; }
+  }
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<h1 class="sr-only">Filmed by Romario — портфолио видеографа: клипы, события, спорт и авто</h1>
+
+<header class="band">
+  <a class="logo" href="#top">Filmed<span class="it">by</span><span class="y">Romario</span></a>
+  <nav class="navlinks">
+    <a class="label" href="#work">Работы</a>
+    <a class="label" href="#services">Направления</a>
+    <a class="label" href="#about">Обо мне</a>
+    <a class="label" href="#contact">Контакты</a>
+  </nav>
+  <a class="btn-ghost" href="#contact">Заказать съёмку <span class="arrow">↗</span></a>
+</header>
+
+<main id="top">
+  <section class="hero band" id="hero">
+    <div class="ghost-r" aria-hidden="true">R</div>
+    <div class="wordmark" aria-hidden="true">
+      <span class="line"><span class="in">Filmed</span></span>
+      <span class="line"><span class="in"><span class="it">by</span><span class="y">Romario</span><span class="dot"></span></span></span>
+    </div>
+    <div class="hero-actions">
+      <a class="cta-link" href="#work">Смотреть работы <span class="arrow">↗</span></a>
+      <a class="cta-link" href="#contact">Написать <span class="arrow">↗</span></a>
+    </div>
+  </section>
+
+  <section id="work" class="band">
+    <div class="section-head">
+      <h2 class="h-display">Работы <span class="it">в кадре</span></h2>
+      <span class="head-line" aria-hidden="true"></span>
+    </div>
+    <div class="tabs" id="tabs" role="toolbar" aria-label="Фильтр работ"></div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section id="services" class="band">
+    <div class="section-head">
+      <h2 class="h-display">Что <span class="it">я</span> снимаю</h2>
+      <span class="head-line" aria-hidden="true"></span>
+    </div>
+    <div class="services-grid">
+      <div class="service">
+        <span class="label">Клипы</span>
+        <h3>Музыкальные клипы</h3>
+        <p>От идеи и раскадровки до цветокоррекции — клип, который держит ритм трека.</p>
+      </div>
+      <div class="service">
+        <span class="label">События</span>
+        <h3>Съёмка событий</h3>
+        <p>Свадьбы, дни рождения, корпоративы — без постановки, живые моменты как есть.</p>
+      </div>
+      <div class="service">
+        <span class="label">Спорт</span>
+        <h3>Спортивные проекты</h3>
+        <p>Динамика, темп, крупный план решающего момента — там, где всё решают секунды.</p>
+      </div>
+      <div class="service">
+        <span class="label">Тачки</span>
+        <h3>Автомобильные видео</h3>
+        <p>Свет, звук мотора, линии кузова — видео про машины, которые хочется пересматривать.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="about band">
+    <div class="inner">
+      <div>
+        <p class="label">Обо мне</p>
+        <h2 class="h-display">Полный <span class="it">цикл</span></h2>
+      </div>
+      <div>
+        <p class="lead">Снимаю там, где есть энергия — на сцене, на старте и в кругу самых близких людей. Через объектив ищу момент, который стоит пересматривать не один раз.</p>
+        <p class="lead">Работаю от идеи до финального монтажа: сценарий, съёмка, цветокоррекция, звук — полный цикл, чтобы результат совпадал с тем, что было в голове до старта камеры.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="contact" class="band">
+  <div class="cta">
+    <p class="label" style="margin-bottom:24px">Контакты</p>
+    <h2 class="h-display">Готовы снять <span class="it">что-то</span> крутое<span class="dot" style="margin-left:0.08em"></span></h2>
+  </div>
+  <div class="contacts">
+    <div class="contact"><span class="label">Почта</span><b>[EMAIL]</b></div>
+    <div class="contact"><span class="label">Телефон</span><b>[ТЕЛЕФОН]</b></div>
+    <div class="contact"><span class="label">Instagram</span><b>[INSTAGRAM]</b></div>
+    <div class="contact"><span class="label">Telegram</span><b>[TELEGRAM]</b></div>
+  </div>
+  <div class="foot-bottom">
+    <span class="label">Filmed by Romario © [ГОД] · <a href="../">← все варианты</a></span>
+    <nav>
+      <a class="label" href="#work">Работы <span class="arrow">↗</span></a>
+      <a class="label" href="#about">Обо мне <span class="arrow">↗</span></a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var categories = [
+    { key: 'all', label: 'Все' },
+    { key: 'clips', label: 'Клипы' },
+    { key: 'events', label: 'События' },
+    { key: 'sport', label: 'Спорт' },
+    { key: 'cars', label: 'Тачки' }
+  ];
+
+  var videos = [
+    { category: 'clips', catLabel: 'Клипы', title: 'Клип — [Имя артиста]', duration: '03:24' },
+    { category: 'clips', catLabel: 'Клипы', title: 'Клип — [Название трека]', duration: '02:51' },
+    { category: 'events', catLabel: 'События', title: 'Свадьба — [Имена молодожёнов]', duration: '05:10' },
+    { category: 'events', catLabel: 'События', title: 'День рождения — [Имя]', duration: '04:02' },
+    { category: 'sport', catLabel: 'Спорт', title: 'Гонка — [Название серии]', duration: '01:47' },
+    { category: 'sport', catLabel: 'Спорт', title: 'Матч — [Название турнира]', duration: '02:15' },
+    { category: 'cars', catLabel: 'Тачки', title: 'Тачка — [Марка и модель]', duration: '01:32' },
+    { category: 'cars', catLabel: 'Тачки', title: 'Тачка — [Марка и модель]', duration: '02:04' }
+  ];
+
+  var c = 'oklch(82% 0.16 86 / 0.28)';
+  var posterSvg = {
+    clips: '<polyline points="0,70 20,45 40,80 60,30 80,60 100,20 120,66 140,40 160,74 180,50 200,64" fill="none" stroke="' + c + '" stroke-width="1"></polyline>',
+    events: '<g fill="' + c + '"><circle cx="30" cy="30" r="2"></circle><circle cx="70" cy="20" r="1.4"></circle><circle cx="150" cy="35" r="2"></circle><circle cx="175" cy="70" r="1.4"></circle><circle cx="50" cy="85" r="1.4"></circle><circle cx="120" cy="90" r="2"></circle><circle cx="100" cy="55" r="1.6"></circle></g>',
+    sport: '<line x1="0" y1="56" x2="200" y2="56" stroke="' + c + '" stroke-width="0.6"></line><path d="M0,56 L40,20 L80,56 L120,20 L160,56 L200,20" fill="none" stroke="' + c + '" stroke-width="1"></path>',
+    cars: '<g stroke="' + c + '" stroke-width="1"><line x1="0" y1="88" x2="200" y2="88"></line><line x1="0" y1="40" x2="70" y2="40"></line><line x1="90" y1="40" x2="140" y2="40"></line><line x1="160" y1="40" x2="200" y2="40"></line></g>'
+  };
+
+  var state = { filter: 'all' };
+  var tabsEl = document.getElementById('tabs');
+  var gridEl = document.getElementById('grid');
+  var reduceMotion = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+
+  tabsEl.innerHTML = categories.map(function (cat) {
+    return '<button type="button" class="tab" data-key="' + cat.key + '">' + cat.label + '</button>';
+  }).join('') + '<span class="count" id="count"></span>';
+  var countEl = document.getElementById('count');
+
+  function render() {
+    var filtered = state.filter === 'all' ? videos : videos.filter(function (v) { return v.category === state.filter; });
+
+    Array.prototype.forEach.call(tabsEl.querySelectorAll('.tab'), function (btn) {
+      var active = btn.getAttribute('data-key') === state.filter;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-pressed', String(active));
+    });
+    countEl.textContent = 'Показано ' + pad(filtered.length) + ' / ' + pad(videos.length);
+
+    gridEl.innerHTML = filtered.map(function (v, i) {
+      return '' +
+        '<article class="card" style="--i:' + i + '">' +
+          '<a class="poster" href="#work" aria-label="Смотреть: ' + v.title + '">' +
+            '<svg class="pattern" viewBox="0 0 200 112" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' + posterSvg[v.category] + '</svg>' +
+            '<span class="play"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3 L20 12 L6 21 Z" fill="currentColor"></path></svg></span>' +
+            '<span class="dur">' + v.duration + '</span>' +
+          '</a>' +
+          '<h3 class="card-title">' + v.title + '</h3>' +
+          '<span class="label card-meta">' + v.catLabel + '</span>' +
+        '</article>';
+    }).join('');
+  }
+
+  // Смена фильтра: старые карточки уходят, новые въезжают лесенкой
+  var switching = null;
+  tabsEl.addEventListener('click', function (e) {
+    var btn = e.target.closest('.tab');
+    if (!btn || btn.getAttribute('data-key') === state.filter) return;
+    state.filter = btn.getAttribute('data-key');
+    if (reduceMotion) { render(); return; }
+    clearTimeout(switching);
+    gridEl.classList.remove('entering');
+    gridEl.classList.add('leaving');
+    switching = setTimeout(function () {
+      render();
+      gridEl.classList.remove('leaving');
+      void gridEl.offsetWidth;
+      gridEl.classList.add('entering');
+    }, 240);
+  });
+
+  render();
+
+  // Запуск анимаций по факту появления на экране (работает и внутри окна просмотра артефакта)
+  var hero = document.getElementById('hero');
+  function playHero() { hero.classList.add("is-on"); document.body.classList.add('ready'); }
+  function revealAll() {
+    playHero();
+    Array.prototype.forEach.call(document.querySelectorAll('.reveal.pre'), function (el) { el.classList.remove('pre'); });
+  }
+
+  if (reduceMotion || !('IntersectionObserver' in window)) { revealAll(); return; }
+
+  var targets = [
+    document.querySelectorAll('section:not(.hero):not(.about) .h-display, footer .h-display'),
+    document.querySelectorAll('.head-line'),
+    document.querySelectorAll('.tabs'),
+    gridEl.querySelectorAll('.card'),
+    document.querySelectorAll('.service'),
+    document.querySelectorAll('.about .inner > div'),
+    document.querySelectorAll('.contact')
+  ];
+
+  var observerAlive = false;
+  var io = new IntersectionObserver(function (entries) {
+    observerAlive = true;
+    entries.forEach(function (en) {
+      if (!en.isIntersecting) return;
+      if (en.target === hero) playHero(); else en.target.classList.remove('pre');
+      io.unobserve(en.target);
+    });
+  }, { threshold: 0.1 });
+
+  io.observe(hero);
+  targets.forEach(function (list) {
+    Array.prototype.forEach.call(list, function (el, i) {
+      el.classList.add('reveal', 'pre');
+      if (!el.classList.contains('head-line')) el.style.transitionDelay = (i % 4) * 90 + 'ms';
+      io.observe(el);
+    });
+  });
+
+  // Подстраховка: если наблюдатель так и не ответил, показываем всё
+  setTimeout(function () { if (!observerAlive) revealAll(); }, 2500);
+  setTimeout(playHero, 2500);
+
+  // Убираем задержку после появления, чтобы ховеры не тормозили
+  document.addEventListener('transitionend', function (e) {
+    if (e.target.classList && e.target.classList.contains('reveal') && !e.target.classList.contains('pre')) e.target.style.transitionDelay = '';
+  });
+})();
+</script>
+</body>
+</html>

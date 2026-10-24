@@ -193,14 +193,21 @@
 
   /* Работы */
   .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px 24px; }
-  .card.featured { grid-column: span 2; }
-  .card.featured .card-title { font-size: 22px; }
+  .grid[data-count="1"] { grid-template-columns: minmax(0, 1fr); max-width: 880px; }
+  .grid[data-count="2"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .card { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
   .poster { position: relative; display: block; aspect-ratio: 16 / 9; max-width: 100%; background: var(--charcoal); overflow: hidden; border: 1px solid var(--yellow);
     transition: transform .45s cubic-bezier(.2,.7,.1,1), box-shadow .45s cubic-bezier(.2,.7,.1,1); }
   .card:hover .poster { transform: translate(-6px, -6px); box-shadow: 12px 12px 0 0 var(--yellow-dim); }
   .poster svg.pattern { position: absolute; inset: 0; width: 100%; height: 100%; transition: transform 1.4s cubic-bezier(.2,.7,.1,1); }
   .card:hover .poster svg.pattern { transform: scale(1.15) rotate(-1deg); }
+  .poster img.cover, .poster video.teaser { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .poster img.cover { transition: transform 1.4s cubic-bezier(.2,.7,.1,1); }
+  .card:hover .poster img.cover { transform: scale(1.06); }
+  .poster video.teaser { opacity: 0; transition: opacity .45s ease; }
+  .card.is-playing video.teaser { opacity: 1; }
+  .play, .dur { z-index: 2; }
+  .card.is-playing .play { opacity: 0; transform: scale(0.6); }
   .play { position: absolute; left: 50%; top: 50%; width: 46px; height: 34px; margin: -17px 0 0 -23px; border-radius: 6px; background: rgb(8 8 8 / 0.7);
     display: flex; align-items: center; justify-content: center; color: var(--yellow); transition: background-color .3s ease, color .3s ease, transform .4s ease; }
   .card:hover .play { background: var(--yellow); color: var(--yellow-ink); transform: scale(1.15); }
@@ -253,18 +260,6 @@
   .foot-bottom nav { display: flex; gap: 28px; }
   .foot-bottom a:hover { color: var(--yellow); }
 
-  /* Курсор с подписью (как у svz) */
-  .cursor { display: none; }
-  @media (hover: hover) and (pointer: fine) {
-    .anim .cursor { display: flex; position: fixed; left: 0; top: 0; z-index: 150; pointer-events: none; width: 14px; height: 14px; margin: -7px 0 0 -7px;
-      border-radius: 50%; background: var(--yellow); align-items: center; justify-content: center; mix-blend-mode: normal;
-      transition: width .35s cubic-bezier(.2,.7,.1,1), height .35s cubic-bezier(.2,.7,.1,1), margin .35s cubic-bezier(.2,.7,.1,1), opacity .3s; }
-    .cursor span { font-family: var(--font-cond); font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--yellow-ink); opacity: 0; transition: opacity .2s; white-space: nowrap; }
-    .cursor.is-link { width: 46px; height: 46px; margin: -23px 0 0 -23px; background: transparent; border: 1px solid var(--yellow); }
-    .cursor.is-label { width: 104px; height: 104px; margin: -52px 0 0 -52px; }
-    .cursor.is-label span { opacity: 1; }
-    .cursor.hide { opacity: 0; }
-  }
 
   @media (max-width: 1100px) {
     :root { --gutter: 32px; }
@@ -283,7 +278,7 @@
     .hero-layer { padding-block: 110px 80px; }
     section.sec { padding-block: 80px; }
     .grid, .svc-cards, .contacts { grid-template-columns: 1fr; }
-    .card.featured { grid-column: auto; }
+    .grid[data-count] { grid-template-columns: 1fr; }
     .tabs { gap: 18px; }
     .count { margin-left: 0; width: 100%; }
     .intro .rec, .intro .meta, .vf-hud .rec, .vf-hud .meta { left: 30px; }
@@ -296,7 +291,6 @@
 
 <div class="bg" aria-hidden="true"></div>
 <div class="grain" aria-hidden="true"></div>
-<div class="cursor" aria-hidden="true"><span></span></div>
 
 <!-- Вступление -->
 <div class="intro" aria-hidden="true">
@@ -466,17 +460,19 @@
   var DESK = html.classList.contains('desk');
 
   /* ——— Данные и фильтр ——— */
-  // Работы Романа (список от 22.10.2026, будет дополняться). Длительность — когда появятся ролики
+  // Работы Романа (список от 22.10.2026, будет дополняться).
+  // teaser — короткий тизер, играет при наведении: media/имя.mp4 (5–8 с, H.264, 1280×720, без звука, до 3 МБ).
+  // cover — кадр-обложка: media/имя.jpg. duration — длительность ролика. Пустое поле — показывается заглушка.
   var categories = [
-    { key: 'all', label: 'Все' }, { key: 'clips', label: 'Клипы' }, { key: 'sport', label: 'Спорт' },
+    { key: 'clips', label: 'Клипы' }, { key: 'sport', label: 'Спорт' },
     { key: 'business', label: 'Для бизнеса' }, { key: 'street', label: 'Уличная классика' }
   ];
   var videos = [
-    { category: 'clips', catLabel: 'Музыкальный клип', title: 'Gunwest — [название трека]' },
-    { category: 'sport', catLabel: 'Спортивные события', title: 'MFP — бои без правил' },
-    { category: 'sport', catLabel: 'Спортивные события', title: 'ХК «Амур»' },
-    { category: 'business', catLabel: 'Для бизнеса', title: 'Сбербанк' },
-    { category: 'street', catLabel: 'Уличная классика', title: 'Уличная классика' }
+    { category: 'clips', catLabel: 'Музыкальный клип', title: 'Gunwest — [название трека]', teaser: '', cover: '' },
+    { category: 'sport', catLabel: 'Спортивные события', title: 'MFP — бои без правил', teaser: '', cover: '' },
+    { category: 'sport', catLabel: 'Спортивные события', title: 'ХК «Амур»', teaser: '', cover: '' },
+    { category: 'business', catLabel: 'Для бизнеса', title: 'Сбербанк', teaser: '', cover: '' },
+    { category: 'street', catLabel: 'Уличная классика', title: 'Уличная классика', teaser: '', cover: '' }
   ];
   var c = 'oklch(82% 0.16 86 / 0.28)';
   var posterSvg = {
@@ -485,7 +481,7 @@
     sport: '<line x1="0" y1="56" x2="200" y2="56" stroke="' + c + '" stroke-width="0.6"></line><path d="M0,56 L40,20 L80,56 L120,20 L160,56 L200,20" fill="none" stroke="' + c + '" stroke-width="1"></path>',
     street: '<g stroke="' + c + '" stroke-width="1"><line x1="0" y1="88" x2="200" y2="88"></line><line x1="0" y1="40" x2="70" y2="40"></line><line x1="90" y1="40" x2="140" y2="40"></line><line x1="160" y1="40" x2="200" y2="40"></line></g>'
   };
-  var state = { filter: 'all' };
+  var state = { filter: 'clips' };
   var tabsEl = document.getElementById('tabs');
   var gridEl = document.getElementById('grid');
   function pad(n) { return (n < 10 ? '0' : '') + n; }
@@ -496,7 +492,7 @@
   var countEl = document.getElementById('count');
 
   function render() {
-    var filtered = state.filter === 'all' ? videos : videos.filter(function (v) { return v.category === state.filter; });
+    var filtered = videos.filter(function (v) { return v.category === state.filter; });
     Array.prototype.forEach.call(tabsEl.querySelectorAll('.tab'), function (btn) {
       var active = btn.getAttribute('data-key') === state.filter;
       btn.classList.toggle('active', active);
@@ -504,9 +500,11 @@
     });
     countEl.textContent = 'Показано ' + pad(filtered.length) + ' / ' + pad(videos.length);
     gridEl.innerHTML = filtered.map(function (v, i) {
-      return '<article class="card' + (state.filter === 'all' && i === 0 ? ' featured' : '') + '" data-cat="' + v.category + '" data-cursor="Смотреть">' +
+      return '<article class="card' + (v.teaser ? ' has-teaser' : '') + '" data-cat="' + v.category + '">' +
           '<a class="poster" href="#work" aria-label="Смотреть: ' + v.title + '">' +
-            '<svg class="pattern" viewBox="0 0 200 112" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' + posterSvg[v.category] + '</svg>' +
+            (v.cover ? '<img class="cover" src="' + v.cover + '" alt="" loading="lazy">'
+              : '<svg class="pattern" viewBox="0 0 200 112" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' + posterSvg[v.category] + '</svg>') +
+            (v.teaser ? '<video class="teaser" src="' + v.teaser + '" muted loop playsinline preload="none" aria-hidden="true"></video>' : '') +
             '<span class="play"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3 L20 12 L6 21 Z" fill="currentColor"></path></svg></span>' +
             (v.duration ? '<span class="dur">' + v.duration + '</span>' : '') +
           '</a>' +
@@ -514,7 +512,45 @@
           '<span class="label card-meta">' + v.catLabel + '</span>' +
         '</article>';
     }).join('');
+    gridEl.setAttribute('data-count', filtered.length);
+    watchTeasers();
     return gridEl.querySelectorAll('.card');
+  }
+
+  /* ——— Тизер при наведении: ролик играет прямо в окне превью ——— */
+  var canHover = window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches;
+  function teaserOn(card) {
+    var v = card.querySelector('video.teaser');
+    if (!v) return;
+    v.preload = 'auto';
+    var p = v.play();
+    if (p && p.catch) p.catch(function () {});
+    card.classList.add('is-playing');
+  }
+  function teaserOff(card) {
+    var v = card.querySelector('video.teaser');
+    if (!v) return;
+    card.classList.remove('is-playing');
+    setTimeout(function () { if (!card.classList.contains('is-playing')) { v.pause(); v.currentTime = 0; } }, 450);
+  }
+  if (canHover) {
+    gridEl.addEventListener('mouseover', function (e) {
+      var card = e.target.closest('.card');
+      if (card && !card.contains(e.relatedTarget)) teaserOn(card);
+    });
+    gridEl.addEventListener('mouseout', function (e) {
+      var card = e.target.closest('.card');
+      if (card && !card.contains(e.relatedTarget)) teaserOff(card);
+    });
+  }
+  // на телефоне наведения нет — тизер играет, пока карточка на экране
+  var teaserIO = (!canHover && 'IntersectionObserver' in window) ? new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) { if (en.isIntersecting) teaserOn(en.target); else teaserOff(en.target); });
+  }, { threshold: 0.6 }) : null;
+  function watchTeasers() {
+    if (!teaserIO) return;
+    teaserIO.disconnect();
+    gridEl.querySelectorAll('.card.has-teaser').forEach(function (c) { teaserIO.observe(c); });
   }
   render();
 
@@ -825,22 +861,6 @@
         });
         el.addEventListener('mouseleave', function () { gsap.to(el, { x: 0, y: 0, duration: 1, ease: 'elastic.out(1, 0.4)' }); });
       });
-
-      /* ——— Курсор с подписью ——— */
-      var cursor = document.querySelector('.cursor');
-      var label = cursor.querySelector('span');
-      var cx = gsap.quickTo(cursor, 'x', { duration: 0.45, ease: 'power3' });
-      var cy = gsap.quickTo(cursor, 'y', { duration: 0.45, ease: 'power3' });
-      window.addEventListener('mousemove', function (e) { cx(e.clientX); cy(e.clientY); });
-      document.addEventListener('mouseover', function (e) {
-        var lab = e.target.closest('[data-cursor]');
-        var link = e.target.closest('a, button');
-        cursor.classList.toggle('is-label', !!lab);
-        cursor.classList.toggle('is-link', !lab && !!link);
-        if (lab) label.textContent = lab.getAttribute('data-cursor');
-      });
-      document.addEventListener('mouseleave', function () { cursor.classList.add('hide'); });
-      document.addEventListener('mouseenter', function () { cursor.classList.remove('hide'); });
     }
 
     ScrollTrigger.refresh();

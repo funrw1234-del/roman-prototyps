@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Filmed by Romario — видеограф: музыкальные клипы, события, спорт и автомобильные видео.">
+<meta name="description" content="Filmed by Romario — видеограф: музыкальные клипы, спортивные события, ролики для бизнеса и уличная классика.">
 <title>FILMED BY ROMARIO — Чёрно-жёлтый</title>
 <meta name="robots" content="noindex">
 <link rel="icon" type="image/png" href="../favicon.png">
@@ -192,7 +192,9 @@
   .count { margin-left: auto; font-family: var(--font-cond); font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--iron); font-variant-numeric: tabular-nums; }
 
   /* Работы */
-  .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 48px 24px; }
+  .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px 24px; }
+  .card.featured { grid-column: span 2; }
+  .card.featured .card-title { font-size: 22px; }
   .card { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
   .poster { position: relative; display: block; aspect-ratio: 16 / 9; max-width: 100%; background: var(--charcoal); overflow: hidden; border: 1px solid var(--yellow);
     transition: transform .45s cubic-bezier(.2,.7,.1,1), box-shadow .45s cubic-bezier(.2,.7,.1,1); }
@@ -281,6 +283,7 @@
     .hero-layer { padding-block: 110px 80px; }
     section.sec { padding-block: 80px; }
     .grid, .svc-cards, .contacts { grid-template-columns: 1fr; }
+    .card.featured { grid-column: auto; }
     .tabs { gap: 18px; }
     .count { margin-left: 0; width: 100%; }
     .intro .rec, .intro .meta, .vf-hud .rec, .vf-hud .meta { left: 30px; }
@@ -315,7 +318,7 @@
   </div>
 </div>
 
-<h1 class="sr-only">Filmed by Romario — портфолио видеографа: клипы, события, спорт и авто</h1>
+<h1 class="sr-only">Filmed by Romario — портфолио видеографа: клипы, спорт, бизнес и уличная классика</h1>
 
 <header class="site band">
   <a class="logo" href="#top">Filmed<span class="it">by</span><span class="y">Romario</span></a>
@@ -396,19 +399,19 @@
             <p>От идеи и раскадровки до цветокоррекции — клип, который держит ритм трека.</p>
           </div>
           <div class="svc-card">
-            <span class="num">02 · События</span>
-            <h3>Съёмка событий</h3>
-            <p>Свадьбы, дни рождения, корпоративы — без постановки, живые моменты как есть.</p>
+            <span class="num">02 · Спорт</span>
+            <h3>Спортивные события</h3>
+            <p>Бои MFP, хоккей «Амура» — темп, удар, крупный план решающего момента, где всё решают секунды.</p>
           </div>
           <div class="svc-card">
-            <span class="num">03 · Спорт</span>
-            <h3>Спортивные проекты</h3>
-            <p>Динамика, темп, крупный план решающего момента — там, где всё решают секунды.</p>
+            <span class="num">03 · Бизнес</span>
+            <h3>Для бизнеса</h3>
+            <p>Рекламные и имиджевые ролики для компаний и брендов — от сценария до готового видео.</p>
           </div>
           <div class="svc-card">
-            <span class="num">04 · Тачки</span>
-            <h3>Автомобильные видео</h3>
-            <p>Свет, звук мотора, линии кузова — видео про машины, которые хочется пересматривать.</p>
+            <span class="num">04 · Авто</span>
+            <h3>Уличная классика</h3>
+            <p>Классика на улицах города: свет, звук мотора, линии кузова — видео, которые хочется пересматривать.</p>
           </div>
         </div>
       </div>
@@ -422,7 +425,7 @@
         <h2 class="h-display split">Полный <span class="it">цикл</span></h2>
       </div>
       <div>
-        <p class="lead">Снимаю там, где есть энергия — на сцене, на старте и в кругу самых близких людей. Через объектив ищу момент, который стоит пересматривать не один раз.</p>
+        <p class="lead">Снимаю там, где есть энергия — на сцене, на ринге, на льду и на ночных улицах. Через объектив ищу момент, который стоит пересматривать не один раз.</p>
         <p class="lead">Работаю от идеи до финального монтажа: сценарий, съёмка, цветокоррекция, звук — полный цикл, чтобы результат совпадал с тем, что было в голове до старта камеры.</p>
       </div>
     </div>
@@ -430,8 +433,8 @@
 
   <div class="marquee" aria-hidden="true">
     <div class="mq-track">
-      <span>Filmed <span class="it">by</span> <em>Romario</em> ✦ Клипы ✦ События ✦ Спорт ✦ Тачки ✦</span>
-      <span>Filmed <span class="it">by</span> <em>Romario</em> ✦ Клипы ✦ События ✦ Спорт ✦ Тачки ✦</span>
+      <span>Filmed <span class="it">by</span> <em>Romario</em> ✦ Клипы ✦ Спорт ✦ Для бизнеса ✦ Уличная классика ✦</span>
+      <span>Filmed <span class="it">by</span> <em>Romario</em> ✦ Клипы ✦ Спорт ✦ Для бизнеса ✦ Уличная классика ✦</span>
     </div>
   </div>
 </main>
@@ -463,26 +466,24 @@
   var DESK = html.classList.contains('desk');
 
   /* ——— Данные и фильтр ——— */
+  // Работы Романа (список от 22.10.2026, будет дополняться). Длительность — когда появятся ролики
   var categories = [
-    { key: 'all', label: 'Все' }, { key: 'clips', label: 'Клипы' }, { key: 'events', label: 'События' },
-    { key: 'sport', label: 'Спорт' }, { key: 'cars', label: 'Тачки' }
+    { key: 'all', label: 'Все' }, { key: 'clips', label: 'Клипы' }, { key: 'sport', label: 'Спорт' },
+    { key: 'business', label: 'Для бизнеса' }, { key: 'street', label: 'Уличная классика' }
   ];
   var videos = [
-    { category: 'clips', catLabel: 'Клипы', title: 'Клип — [Имя артиста]', duration: '03:24' },
-    { category: 'clips', catLabel: 'Клипы', title: 'Клип — [Название трека]', duration: '02:51' },
-    { category: 'events', catLabel: 'События', title: 'Свадьба — [Имена молодожёнов]', duration: '05:10' },
-    { category: 'events', catLabel: 'События', title: 'День рождения — [Имя]', duration: '04:02' },
-    { category: 'sport', catLabel: 'Спорт', title: 'Гонка — [Название серии]', duration: '01:47' },
-    { category: 'sport', catLabel: 'Спорт', title: 'Матч — [Название турнира]', duration: '02:15' },
-    { category: 'cars', catLabel: 'Тачки', title: 'Тачка — [Марка и модель]', duration: '01:32' },
-    { category: 'cars', catLabel: 'Тачки', title: 'Тачка — [Марка и модель]', duration: '02:04' }
+    { category: 'clips', catLabel: 'Музыкальный клип', title: 'Gunwest — [название трека]' },
+    { category: 'sport', catLabel: 'Спортивные события', title: 'MFP — бои без правил' },
+    { category: 'sport', catLabel: 'Спортивные события', title: 'ХК «Амур»' },
+    { category: 'business', catLabel: 'Для бизнеса', title: 'Сбербанк' },
+    { category: 'street', catLabel: 'Уличная классика', title: 'Уличная классика' }
   ];
   var c = 'oklch(82% 0.16 86 / 0.28)';
   var posterSvg = {
     clips: '<polyline points="0,70 20,45 40,80 60,30 80,60 100,20 120,66 140,40 160,74 180,50 200,64" fill="none" stroke="' + c + '" stroke-width="1"></polyline>',
-    events: '<g fill="' + c + '"><circle cx="30" cy="30" r="2"></circle><circle cx="70" cy="20" r="1.4"></circle><circle cx="150" cy="35" r="2"></circle><circle cx="175" cy="70" r="1.4"></circle><circle cx="50" cy="85" r="1.4"></circle><circle cx="120" cy="90" r="2"></circle><circle cx="100" cy="55" r="1.6"></circle></g>',
+    business: '<g stroke="' + c + '" stroke-width="1" fill="none"><line x1="0" y1="96" x2="200" y2="96"></line><rect x="40" y="62" width="16" height="34"></rect><rect x="70" y="48" width="16" height="48"></rect><rect x="100" y="34" width="16" height="62"></rect><rect x="130" y="20" width="16" height="76"></rect><polyline points="30,70 78,52 108,40 160,14"></polyline></g>',
     sport: '<line x1="0" y1="56" x2="200" y2="56" stroke="' + c + '" stroke-width="0.6"></line><path d="M0,56 L40,20 L80,56 L120,20 L160,56 L200,20" fill="none" stroke="' + c + '" stroke-width="1"></path>',
-    cars: '<g stroke="' + c + '" stroke-width="1"><line x1="0" y1="88" x2="200" y2="88"></line><line x1="0" y1="40" x2="70" y2="40"></line><line x1="90" y1="40" x2="140" y2="40"></line><line x1="160" y1="40" x2="200" y2="40"></line></g>'
+    street: '<g stroke="' + c + '" stroke-width="1"><line x1="0" y1="88" x2="200" y2="88"></line><line x1="0" y1="40" x2="70" y2="40"></line><line x1="90" y1="40" x2="140" y2="40"></line><line x1="160" y1="40" x2="200" y2="40"></line></g>'
   };
   var state = { filter: 'all' };
   var tabsEl = document.getElementById('tabs');
@@ -502,12 +503,12 @@
       btn.setAttribute('aria-pressed', String(active));
     });
     countEl.textContent = 'Показано ' + pad(filtered.length) + ' / ' + pad(videos.length);
-    gridEl.innerHTML = filtered.map(function (v) {
-      return '<article class="card" data-cursor="Смотреть">' +
+    gridEl.innerHTML = filtered.map(function (v, i) {
+      return '<article class="card' + (state.filter === 'all' && i === 0 ? ' featured' : '') + '" data-cursor="Смотреть">' +
           '<a class="poster" href="#work" aria-label="Смотреть: ' + v.title + '">' +
             '<svg class="pattern" viewBox="0 0 200 112" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' + posterSvg[v.category] + '</svg>' +
             '<span class="play"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3 L20 12 L6 21 Z" fill="currentColor"></path></svg></span>' +
-            '<span class="dur">' + v.duration + '</span>' +
+            (v.duration ? '<span class="dur">' + v.duration + '</span>' : '') +
           '</a>' +
           '<h3 class="card-title">' + v.title + '</h3>' +
           '<span class="label card-meta">' + v.catLabel + '</span>' +
